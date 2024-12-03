@@ -12,15 +12,19 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ThemeProvider>
-          <SidebarProvider>
-            <div className="flex h-screen">
-              <AppSidebar />
-              <div className="flex flex-col flex-1 overflow-hidden">
+          <div></div>
+
+          <div className="flex">
+            <AppSidebar>
+              {/* <div className="flex flex-col flex-1 overflow-hidden">
                 <AppHeaderBreadcrumb />
                 <main className="flex-1 overflow-auto p-4">{children}</main>
-              </div>
-            </div>
-          </SidebarProvider>
+              </div> */}
+              {children}
+            </AppSidebar>
+          </div>
+
+          {/* {children} */}
         </ThemeProvider>
       </body>
     </html>
