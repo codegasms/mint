@@ -21,18 +21,17 @@ export async function GET(req: NextRequest) {
   });
 }
 
-
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    const org = await createOrg(body); 
+    const org = await createOrg(body);
     return NextResponse.json(org, { status: 201 });
   } catch (error) {
     console.error("Error creating organization:", error);
     return NextResponse.json(
       { error: "Failed to create organization" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

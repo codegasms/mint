@@ -12,7 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import Charts from "./textfeature"
+import Charts from "./textfeature";
 import {
   ChevronLeft,
   ChevronRight,
@@ -34,7 +34,12 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { TotalContestsCard, TotalMembersCard, TotalOrganizersCard, TotalProblemsCard } from "./cards/statistics";
+import {
+  TotalContestsCard,
+  TotalMembersCard,
+  TotalOrganizersCard,
+  TotalProblemsCard,
+} from "./cards/statistics";
 
 const mockRecentContests = [
   {
@@ -128,17 +133,13 @@ export function AdminDashboard() {
       <div className="flex-1 p-6 overflow-auto">
         {/* Overview Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          
-          <TotalOrganizersCard totalOrganizers={totalTeachers}/>
+          <TotalOrganizersCard totalOrganizers={totalTeachers} />
 
-          
-          <TotalMembersCard totalMembers={totalStudents}/>
-          
-          
-          <TotalContestsCard totalContestsGiven={totalContests}/>
+          <TotalMembersCard totalMembers={totalStudents} />
 
-          <TotalProblemsCard totalProblems={totalProblems}/>
-         
+          <TotalContestsCard totalContestsGiven={totalContests} />
+
+          <TotalProblemsCard totalProblems={totalProblems} />
         </div>
 
         <Tabs defaultValue="recent-contests" className="w-full">
@@ -188,7 +189,7 @@ export function AdminDashboard() {
 
           <TabsContent value="system-health">
             <div className="grid   ">
-              <Charts/>
+              <Charts />
             </div>
           </TabsContent>
         </Tabs>

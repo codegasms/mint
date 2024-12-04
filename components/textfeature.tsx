@@ -38,7 +38,10 @@ const Charts = () => {
   return (
     <div className="chart-wrapper mx-auto flex max-w-full flex-col flex-wrap items-start justify-center gap-6 p-6 sm:flex-row sm:p-8">
       <div className="flex w-full gap-6 sm:flex-row lg:flex-row xl:flex-row">
-        <Card className="flex-1 w-full sm:w-1/2 lg:w-1/2 xl:w-1/2" x-chunk="charts-01-chunk-0">
+        <Card
+          className="flex-1 w-full sm:w-1/2 lg:w-1/2 xl:w-1/2"
+          x-chunk="charts-01-chunk-0"
+        >
           <CardHeader className="space-y-0 pb-2">
             <CardDescription>Contests </CardDescription>
             <CardTitle className="text-4xl tabular-nums">
@@ -155,11 +158,15 @@ const Charts = () => {
           <CardFooter className="flex-col items-start gap-1">
             <CardDescription>
               Over the past 1 month contests{" "}
-              <span className="font-medium text-foreground">5305</span> contests.
+              <span className="font-medium text-foreground">5305</span>{" "}
+              contests.
             </CardDescription>
           </CardFooter>
         </Card>
-        <Card className="flex-1 w-full sm:w-1/2 lg:w-1/2 xl:w-1/2" x-chunk="charts-01-chunk-1">
+        <Card
+          className="flex-1 w-full sm:w-1/2 lg:w-1/2 xl:w-1/2"
+          x-chunk="charts-01-chunk-1"
+        >
           <CardHeader className="flex flex-row items-center gap-4 space-y-0 pb-2 [&>div]:flex-1">
             <div>
               <CardDescription>Total Participants</CardDescription>

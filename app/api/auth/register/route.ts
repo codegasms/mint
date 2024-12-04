@@ -11,8 +11,8 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const validatedData = registerSchema.parse(body);
-    console.log("validated data",validatedData);
-    
+    console.log("validated data", validatedData);
+
     const existingUser = await db.query.users.findFirst({
       where: eq(users.email, validatedData.email),
     });
