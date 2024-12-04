@@ -134,43 +134,11 @@ export function AdminDashboard() {
           
           <TotalMembersCard totalMembers={totalStudents}/>
           
-          {/* <Card className="bg-gray-800 border-gray-700">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Total Contests
-              </CardTitle>
-              <Trophy className="h-4 w-4 text-purple-400" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{totalContests}</div>
-            </CardContent>
-          </Card> */}
+          
           <TotalContestsCard totalContestsGiven={totalContests}/>
 
-          {/* <Card className="bg-gray-800 border-gray-700">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Total Problems
-              </CardTitle>
-              <BookOpen className="h-4 w-4 text-red-400" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{totalProblems}</div>
-            </CardContent>
-          </Card> */}
-
           <TotalProblemsCard totalProblems={totalProblems}/>
-          {/* <Card className="bg-gray-800 border-gray-700">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                CPU Hours (Execution)
-              </CardTitle>
-              <Cpu className="h-4 w-4 text-cyan-400" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{cpuHours}</div>
-            </CardContent>
-          </Card> */}
+         
         </div>
 
         <Tabs defaultValue="recent-contests" className="w-full">
@@ -219,7 +187,7 @@ export function AdminDashboard() {
           </TabsContent>
 
           <TabsContent value="system-health">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid   ">
               <Charts/>
             </div>
           </TabsContent>

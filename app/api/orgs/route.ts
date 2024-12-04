@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db/drizzle";
 import { orgs } from "@/db/schema";
 import { count } from "drizzle-orm";
+import { createOrg } from "./service";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl;
@@ -18,4 +19,20 @@ export async function GET(req: NextRequest) {
     limit,
     offset,
   });
+}
+
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+
+    const org = await createOrg(body); 
+    return NextResponse.json(org, { status: 201 });
+  } catch (error) {
+    console.error("Error creating organization:", error);
+    return NextResponse.json(
+      { error: "Failed to create organization" },
+      { status: 500 }
+    );
+  }
 }

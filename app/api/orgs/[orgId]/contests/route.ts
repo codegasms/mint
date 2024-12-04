@@ -14,7 +14,6 @@ export async function POST(
   try {
     const orgId = IdSchema.parse(params.orgId);
     const data = createContestSchema.parse(await request.json());
-
     const contest = await createContest(orgId, data);
     return NextResponse.json(contest, { status: 201 });
   } catch (error) {
