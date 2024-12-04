@@ -37,11 +37,9 @@ export function UnauthorizedPage() {
           </p>
         </CardContent>
         <CardFooter className="flex justify-center">
-          <Button asChild onClick={handleLogout}>
-            <Link href="/" className="flex items-center">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Logout
-            </Link>
+          <Button onClick={handleLogout} className="flex items-center">
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Logout
           </Button>
         </CardFooter>
       </Card>
