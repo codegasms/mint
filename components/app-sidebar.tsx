@@ -77,17 +77,20 @@ const data = {
     {
       name: "Acme Inc",
       logo: GalleryVerticalEnd,
-      plan: "Enterprise",
+      nameId: "Enterprise",
+      role: "owner",
     },
     {
       name: "Acme Corp.",
       logo: AudioWaveform,
-      plan: "Startup",
+      nameId: "Startup",
+      role: "owner",
     },
     {
       name: "Evil Corp.",
       logo: Command,
-      plan: "Free",
+      nameId: "Free",
+      role: "owner",
     },
   ],
   navMain: [
@@ -175,8 +178,33 @@ export function AppSidebar({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
 
+  // get user from AuthContext
+  const { user } = useContext(AuthContext);
+  if (user?.orgs) {
+    data.teams = user?.orgs.map((org) => ({
+      ...org,
+      logo: AudioWaveform,
+    }));
+  }
+
+  console.log(process.env.NEXT_PUBLIC_DEBUG);
+  console.log(user);
+  if (!user && process.env.NEXT_PUBLIC_DEBUG !== "True") {
+    router.push("/auth");
+  }
+
   // Get the base path (e.g., /[orgId])
   const basePath = pathname.split("/").slice(0, 2).join("/");
+  console.log(basePath);
+  // if (basePath !== "/[orgId]") {
+  //   router.push("/[orgId]");
+  // }
+  // const currentOrg = basePath.slice(1);
+  // if (currentOrg !== activeTeam.nameId) {
+  //   setActiveTeam(
+  //     data.teams.find((team) => team.nameId === currentOrg) || data.teams[0],
+  //   );
+  // }
 
   // Utility function to generate breadcrumbs from pathname
   const generateBreadcrumbs = (pathname: string) => {
