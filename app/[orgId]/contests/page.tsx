@@ -5,6 +5,7 @@ import { GenericEditor, Field } from "@/mint/generic-editor";
 import { Contest, mockContests } from "./mockData";
 import { useEffect, useState } from "react";
 import { z } from "zod";
+import { fetchApi } from "@/lib/client/fetch";
 
 const columns: ColumnDef<Contest>[] = [
   { header: "Contest ID", accessorKey: "nameId", sortable: true },
@@ -58,7 +59,23 @@ export default function ContestsPage() {
   const [isEditorOpen, setIsEditorOpen] = useState(false);
 
   useEffect(() => {
-    setContests(injectProblemsCount(mockContests));
+    // Simulate API call
+
+    const fetchData = async () => {
+      
+      try { 
+      const mydata = await fetchApi("/me");
+      console.log("testing",mydata.orgs[0].nameId);
+
+      const ContestsData = await fetch(`/api/orgs/${mydata.orgs[0].nameId}/contests`);
+      console.log("the group data",ContestsData);
+
+    setContests(injectProblemsCount(ContestsData));
+      }catch (error) {
+        console.error("Error fetching group data:", error);
+      }
+    };
+    fetchData();
   }, []);
 
   const deleteContest = async (contest: Contest) => {

@@ -7,12 +7,13 @@ import { getOrgIdFromNameId, getUserIdFromNameId } from "@/app/api/service";
 
 export async function DELETE(
   _req: NextRequest,
-  { params }: { params: { orgId: string; userId: string } },
+  { params }: { params: { orgId: string; nameId: string } },
 ) {
   try {
     const orgId = await getOrgIdFromNameId(NameIdSchema.parse(params.orgId));
-    const userId = await getUserIdFromNameId(NameIdSchema.parse(params.userId));
-
+    const userId = await getUserIdFromNameId(NameIdSchema.parse(params.nameId));
+    console.log(orgId, userId);
+    
     const deleted = await userService.removeUserFromOrg(orgId, userId);
     return NextResponse.json(deleted);
   } catch (error) {

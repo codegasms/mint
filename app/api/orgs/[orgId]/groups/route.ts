@@ -5,6 +5,12 @@ import * as groupService from "./service";
 import { NameIdSchema } from "@/app/api/types";
 import { getOrgIdFromNameId } from "@/app/api/service";
 
+import { updateGroupSchema } from "@/lib/validations"; // Define schema for validation
+
+
+
+
+
 export async function GET(
   _req: NextRequest,
   { params }: { params: { orgId: string } },
@@ -34,5 +40,41 @@ export async function POST(
       return Response.json({ error: error.errors }, { status: 400 });
     }
     return Response.json({ error: "Failed to create group" }, { status: 500 });
+  }
+}
+
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: { orgId: string; groupId: string } } // Adding groupId as a dynamic parameter
+) {
+  try {
+    const orgId = await getOrgIdFromNameId(NameIdSchema.parse(params.orgId));
+    const groupId = params.groupId; // Extract groupId from the params
+    const data = updateGroupSchema.parse(await request.json()); // Parse and validate incoming data
+
+    const updatedGroup = await groupService.updateGroup(orgId, groupId, data); // Update group logic
+    return Response.json(updatedGroup, { status: 200 });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return Response.json({ error: error.errors }, { status: 400 });
+    }
+    return Response.json({ error: "Failed to update group" }, { status: 500 });
+  }
+}
+
+
+
+export async function DELETE(
+  _req: NextRequest,
+  { params }: { params: { orgId: string; groupId: string } },
+) {
+  try {
+    const orgId = await getOrgIdFromNameId(NameIdSchema.parse(params.orgId));
+    const groupId = params.groupId;
+
+    await groupService.deleteGroup(orgId, groupId); // Call service to delete group
+    return Response.json({ message: "Group deleted successfully" }, { status: 200 });
+  } catch (error) {
+    return Response.json({ error: "Failed to delete group" }, { status: 500 });
   }
 }

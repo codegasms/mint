@@ -21,6 +21,64 @@ export async function createGroup(
   });
 }
 
+export async function deleteGroup(orgId: string, groupId: string) {
+  return await db.transaction(async (tx) => {
+    // Check if the group exists
+    const existingGroup = await tx.query.groups.findFirst({
+      where: and(eq(groups.id, groupId), eq(groups.orgId, orgId)),
+    });
+
+    if (!existingGroup) {
+      throw new Error("Group not found");
+    }
+
+    // Delete group memberships associated with the group
+    await tx
+      .delete(groupMemberships)
+      .where(eq(groupMemberships.groupId, groupId));
+
+    // Delete the group
+    const [deletedGroup] = await tx
+      .delete(groups)
+      .where(and(eq(groups.id, groupId), eq(groups.orgId, orgId)))
+      .returning();
+
+    return deletedGroup;
+  });
+}
+
+
+
+export async function updateGroup(
+  orgId: string,
+  groupId: string,
+  data: Partial<z.infer<typeof createGroupSchema>>,
+) {
+  return await db.transaction(async (tx) => {
+    // Check if the group exists
+    const existingGroup = await tx.query.groups.findFirst({
+      where: and(eq(groups.id, groupId), eq(groups.orgId, orgId)),
+    });
+
+    if (!existingGroup) {
+      throw new Error("Group not found");
+    }
+
+    // Update the group's details
+    const [updatedGroup] = await tx
+      .update(groups)
+      .set(data)
+      .where(and(eq(groups.id, groupId), eq(groups.orgId, orgId)))
+      .returning();
+
+    return updatedGroup;
+  });
+}
+
+
+
+
+
 export async function addGroupMember(groupId: number, userId: number) {
   return await db.transaction(async (tx) => {
     // Check if already a member

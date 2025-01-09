@@ -4,7 +4,9 @@ import { GenericListing, ColumnDef } from "@/mint/generic-listing";
 import { GenericEditor, Field } from "@/mint/generic-editor";
 import { Group, mockGroups } from "./mockData";
 import { useEffect, useState } from "react";
-import { z } from "zod";
+import { set, z } from "zod";
+
+import { fetchApi } from "@/lib/client/fetch";
 
 const columns: ColumnDef<{ id: string | number } & Group>[] = [
   { header: "Name", accessorKey: "name" as const },
@@ -60,14 +62,40 @@ export default function GroupsPage() {
   const [groups, setGroups] = useState<Group[]>([]);
   const [selectedGroup, setSelectedGroup] = useState<Group | null>(null);
   const [isEditorOpen, setIsEditorOpen] = useState(false);
+  
+
+  
 
   useEffect(() => {
-    setGroups(injectUsersCount(mockGroups));
+    
+    const fetchData = async () => {
+      
+      try {
+       // Fetch user data after successful login
+       const mydata = await fetchApi("/me");
+        console.log("testing",mydata.orgs[0].nameId);
+
+        const GroupData = await fetch(`/api/orgs/${mydata.orgs[0].nameId}/groups`);
+        console.log("the group data",GroupData);
+        setGroups(injectUsersCount(GroupData));
+      } catch (error) {
+        console.error("Error fetching group data:", error);
+      }
+    };
+    fetchData();
   }, []);
 
   const deleteGroup = async (group: Group) => {
     try {
       // Simulate API call
+      const mydata = await fetchApi("/me");
+       await fetch(`/api/orgs/${mydata.orgs[0].nameId}/groups`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(group),
+      });
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       // Update the state after successful API call
@@ -79,13 +107,32 @@ export default function GroupsPage() {
   };
 
   const saveGroup = async (group: Group) => {
+    const mydata = await fetchApi("/me");
     if (selectedGroup) {
       // Update existing group
+      const groupdata = await fetch(`/api/orgs/${mydata.orgs[0].nameId}/groups`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(group),
+      });
+      console.log("the group data",groupdata);
+
       setGroups(
         injectUsersCount(groups.map((g) => (g.id === group.id ? group : g))),
       );
     } else {
-      // Add new group
+      
+      const groupdata = await fetch(`/api/orgs/${mydata.orgs[0].nameId}/groups`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(group),
+      });
+      console.log("the group data",groupdata);
+
       setGroups(
         injectUsersCount([
           ...groups,

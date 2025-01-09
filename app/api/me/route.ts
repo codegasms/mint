@@ -11,6 +11,8 @@ export async function GET() {
     }
 
     const user = await getUserWithOrgs(session.userId);
+    console.log(user);
+    
 
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });

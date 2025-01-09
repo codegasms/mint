@@ -63,7 +63,13 @@ export function AuthComponent({
         method: "POST",
         body: JSON.stringify(values),
       });
-      router.push("/iiits"); // Redirect to home page after successful login
+      const mydata = await fetchApi("/me"); // Fetch user data after successful login
+      if(mydata.orgs.length === 0){
+        router.push("/onboarding");
+      }else{
+        router.push(`/${mydata.orgs[0].nameId}`);
+      }
+      
     } catch (error) {
       console.error(error);
       toast({
@@ -80,7 +86,7 @@ export function AuthComponent({
         method: "POST",
         body: JSON.stringify(values),
       });
-      router.push("/iiits"); // Redirect to home page after successful registration
+      router.push("/onboarding"); // Redirect to home page after successful registration
     } catch (error) {
       console.error(error);
       toast({
