@@ -1,11 +1,16 @@
-import { getTypesenseClient, SearchParams, SearchResponse } from "../client";
+import {
+  createSearchParams,
+  getTypesenseClient,
+  SearchParams,
+  SearchResponse,
+} from "../client";
 import { SelectProblem } from "@/db/schema";
 import { getRedis, CACHE_KEYS, CACHE_TTL } from "@/db/redis";
 
 export const PROBLEMS_SCHEMA = {
   name: "problems",
   fields: [
-    { name: "id", type: "int32" },
+    { name: "id", type: "string" },
     { name: "code", type: "string" },
     { name: "title", type: "string" },
     { name: "description", type: "string" },
@@ -17,7 +22,7 @@ export const PROBLEMS_SCHEMA = {
 };
 
 export interface ProblemDocument {
-  id: number;
+  id: string;
   code: string;
   title: string;
   description: string;
@@ -28,13 +33,13 @@ export interface ProblemDocument {
 
 export function problemToDocument(problem: SelectProblem): ProblemDocument {
   return {
-    id: problem.id,
+    id: problem.id.toString(),
     code: problem.code,
     title: problem.title,
     description: problem.description,
     allowed_languages: problem.allowedLanguages,
     org_id: problem.orgId,
-    created_at: problem.createdAt.getTime(),
+    created_at: new Date(problem.createdAt).getTime(),
   };
 }
 
@@ -53,16 +58,6 @@ export async function searchProblems(
 
   const client = getTypesenseClient();
 
-  const searchParameters = createSearchParams(
-    query,
-    ["title", "code", "description"],
-    [4, 2, 1],
-    {
-      per_page: options.per_page || 10,
-      page: options.page || 1,
-      ...options,
-    },
-  );
   const searchParameters = createSearchParams(
     query,
     ["title", "code", "description"],

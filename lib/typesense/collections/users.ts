@@ -9,7 +9,7 @@ import { type SelectUser } from "@/db/schema";
 export const USERS_SCHEMA = {
   name: "users",
   fields: [
-    { name: "id", type: "int32" },
+    { name: "id", type: "string" },
     { name: "name_id", type: "string" },
     { name: "name", type: "string" },
     { name: "about", type: "string", optional: true },
@@ -20,7 +20,7 @@ export const USERS_SCHEMA = {
 };
 
 export interface UserDocument {
-  id: number;
+  id: string;
   name_id: string;
   name: string;
   about?: string;
@@ -30,12 +30,12 @@ export interface UserDocument {
 
 export function userToDocument(user: SelectUser): UserDocument {
   return {
-    id: user.id,
+    id: user.id.toString(),
     name_id: user.nameId,
     name: user.name,
     about: user.about || undefined,
     avatar: user.avatar || undefined,
-    created_at: user.createdAt.getTime(),
+    created_at: new Date(user.createdAt).getTime(),
   };
 }
 

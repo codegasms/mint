@@ -9,7 +9,7 @@ import { type SelectContest } from "@/db/schema";
 export const CONTESTS_SCHEMA = {
   name: "contests",
   fields: [
-    { name: "id", type: "int32" },
+    { name: "id", type: "string" },
     { name: "name_id", type: "string" },
     { name: "name", type: "string" },
     { name: "description", type: "string" },
@@ -22,7 +22,7 @@ export const CONTESTS_SCHEMA = {
 };
 
 export interface ContestDocument {
-  id: number;
+  id: string;
   name_id: string;
   name: string;
   description: string;
@@ -34,14 +34,14 @@ export interface ContestDocument {
 
 export function contestToDocument(contest: SelectContest): ContestDocument {
   return {
-    id: contest.id,
+    id: contest.id.toString(),
     name_id: contest.nameId,
     name: contest.name,
     description: contest.description,
     rules: contest.rules,
     organizer_id: contest.organizerId,
-    start_time: contest.startTime.getTime(),
-    end_time: contest.endTime.getTime(),
+    start_time: new Date(contest.startTime).getTime(),
+    end_time: new Date(contest.endTime).getTime(),
   };
 }
 

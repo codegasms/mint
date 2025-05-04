@@ -9,7 +9,7 @@ import { SelectOrg } from "@/db/schema";
 export const ORGS_SCHEMA = {
   name: "orgs",
   fields: [
-    { name: "id", type: "int32" },
+    { name: "id", type: "string" },
     { name: "name_id", type: "string" },
     { name: "name", type: "string" },
     { name: "about", type: "string", optional: true },
@@ -20,7 +20,7 @@ export const ORGS_SCHEMA = {
 };
 
 export interface OrgDocument {
-  id: number;
+  id: string;
   name_id: string;
   name: string;
   about?: string;
@@ -30,12 +30,12 @@ export interface OrgDocument {
 
 export function orgToDocument(org: SelectOrg): OrgDocument {
   return {
-    id: org.id,
+    id: org.id.toString(),
     name_id: org.nameId,
     name: org.name,
     about: org.about || undefined,
     avatar: org.avatar || undefined,
-    created_at: org.createdAt.getTime(),
+    created_at: new Date(org.createdAt).getTime(),
   };
 }
 
