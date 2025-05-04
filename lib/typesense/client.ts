@@ -41,6 +41,7 @@ export async function safeSearch<T>(
 export interface SearchParams {
   q: string;
   query_by: string;
+  query_by_weights?: string;
   filter_by?: string;
   sort_by?: string;
   page?: number;
@@ -73,11 +74,13 @@ export interface SearchResponse<T> {
 export function createSearchParams(
   query: string,
   queryBy: string[],
+  weights?: number[],
   options: Partial<SearchParams> = {},
 ): SearchParams {
   return {
     q: query,
     query_by: queryBy.join(","),
+    query_by_weights: weights?.join(","),
     per_page: 10,
     ...options,
   };
