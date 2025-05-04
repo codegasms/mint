@@ -6,6 +6,9 @@ import "@uiw/react-markdown-preview/markdown.css";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/contexts/auth-context";
 import { ThemeProvider } from "@/contexts/theme-context"; // Added import statement
+import { initializeServices } from "@/lib/init";
+
+initializeServices().catch(console.error);
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
