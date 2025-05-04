@@ -1,4 +1,9 @@
-import { getTypesenseClient, SearchParams, SearchResponse } from "../client";
+import {
+  createSearchParams,
+  getTypesenseClient,
+  SearchParams,
+  SearchResponse,
+} from "../client";
 import { SelectUser } from "@/db/schema";
 
 export const USERS_SCHEMA = {

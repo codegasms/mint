@@ -1,4 +1,9 @@
-import { getTypesenseClient, SearchParams, SearchResponse } from "../client";
+import {
+  createSearchParams,
+  getTypesenseClient,
+  SearchParams,
+  SearchResponse,
+} from "../client";
 
 export const CONTESTS_SCHEMA = {
   name: "contests",
