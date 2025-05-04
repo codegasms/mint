@@ -11,13 +11,10 @@ export async function GET(request: NextRequest) {
   try {
     const results = await safeSearch(
       () => searchProblems(query, { page, per_page }),
-      { found: 0, hits: [], page }
+      { found: 0, hits: [], page },
     );
     return NextResponse.json(results);
   } catch (error) {
-    return NextResponse.json(
-      { error: "Search failed" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Search failed" }, { status: 500 });
   }
 }
