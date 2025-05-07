@@ -19,6 +19,14 @@ const nextConfig = {
   images: {
     domains: ['images.unsplash.com', 'assets.aceternity.com'],
   },
+  // Add performance optimizations
+  swcMinify: true,
+  poweredByHeader: false,
+  compress: true,
+  reactStrictMode: true,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
 }
 
 module.exports = nextConfig
